@@ -18,16 +18,17 @@ const GlobalStyles = createGlobalStyle`
   --color-secondary-700: #98866a;
   --color-secondary-800: #837155;
 
-  --color-gray-400: #cdcfcb;
-  --color-gray-300: #e8e9e7;
-  --color-gray-500: #b2b5ae;
-  --color-gray-600: #94988d;
-  --color-gray-700: #83877b;
-  --color-gray-800: #6d7167;
-  --color-gray-900: #272824;
+  --color-gray-200: #F2F3F2;
+  --color-gray-300: #E8E9E7;
+  --color-gray-400: #CDCECC;
+  --color-gray-500: #B2B3B0;
+  --color-gray-600: #939590;
+  --color-gray-700: #81847E;
+  --color-gray-800: #6C6E6A;
+  --color-gray-900: #262725;
 
   --color-white: #fff;
-  
+  --color-black: #000;
 }
 
 *,
@@ -46,6 +47,7 @@ html {
     font-family: 'Lexend', sans-serif;
     font-weight: 300;
     font-size: 1.6rem;
+    //min-height: 100vh;
   }
 
 `;

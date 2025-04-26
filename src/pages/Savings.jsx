@@ -1,5 +1,7 @@
+import Overview from "../ui/Overview";
+
 function Savings() {
-  return <div>savings</div>;
+  return <Overview page="savings" />;
 }
 
 export default Savings;

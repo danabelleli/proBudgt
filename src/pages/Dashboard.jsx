@@ -1,5 +1,7 @@
+import Overview from "../ui/Overview";
+
 function Dashboard() {
-  return <div>dashboard</div>;
+  return <Overview page="dashboard" />;
 }
 
 export default Dashboard;
