@@ -62,7 +62,7 @@ export function handleFormat(e, fieldName, setValue) {
 
 // Formatting number initially when displayed on page in a form
 export function formatNumber(number) {
-  if (number == null) return "";
+  if (number === null) return "";
   return Number(number).toLocaleString("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,

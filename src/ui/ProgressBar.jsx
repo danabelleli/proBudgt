@@ -4,6 +4,18 @@ function ProgressBar({ goal = 0, moneyMade = 0 }) {
   const progress = calculateProgress(moneyMade, goal);
   const visualProgress = Math.min(progress, 100); // Limit visual width to 100%
 
+  function formatCurrency(value, { noDecimals = false } = {}) {
+    return value.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: noDecimals ? 0 : 2,
+      maximumFractionDigits: noDecimals ? 0 : 2,
+    });
+  }
+
+  const formattedMoneyMade = formatCurrency(moneyMade); // with decimals
+  const formattedGoal = formatCurrency(goal, { noDecimals: true }); // no decimals
+
   return (
     <div className="relative w-full">
       {/* Progress Bar */}
@@ -32,13 +44,13 @@ function ProgressBar({ goal = 0, moneyMade = 0 }) {
               className="absolute transform -translate-x-14 -translate-y-32 text-[1.6rem]"
               style={{ left: `${visualProgress}%` }}
             >
-              {`$${moneyMade}`}
+              {formattedMoneyMade}
             </span>
           )}
 
           {/* Goal Label */}
           <span className="absolute right-0 transform translate-x-1/2 font-medium">
-            {`$${goal}`}
+            {formattedGoal}
           </span>
         </div>
       </div>
