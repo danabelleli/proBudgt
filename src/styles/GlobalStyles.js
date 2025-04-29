@@ -32,6 +32,8 @@ const GlobalStyles = createGlobalStyle`
   --color-red-dark: #8F1414;
   --color-red-light: #B31919;
 
+  --backdrop-color: rgba(255, 255, 255, 0.1);
+
   --shadow-sm: 0 2px 3px rgba(0, 0, 0, 0.04);
   --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
