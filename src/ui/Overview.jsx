@@ -5,47 +5,54 @@ import { generateYears, getMonthDates } from "../utils/functions";
 import { months } from "../utils/data";
 
 function Overview({ page }) {
-  const currentYear = new Date().getFullYear();
-  const years = generateYears();
+    const currentYear = new Date().getFullYear();
+    const years = generateYears();
 
-  const now = new Date();
-  const currentMonthIndex = now.getMonth(); // 0 = January, 1 = February, etc
+    const now = new Date();
+    const currentMonthIndex = now.getMonth(); // 0 = January, 1 = February, etc
 
-  const [selectedMonth, setSelectedMonth] = useState(months[currentMonthIndex]);
-  const [selectedYear, setSelectedYear] = useState(currentYear);
+    const [selectedMonth, setSelectedMonth] = useState(
+        months[currentMonthIndex]
+    );
+    const [selectedYear, setSelectedYear] = useState(currentYear);
 
-  function handleMonthChange(option) {
-    setSelectedMonth(option);
-  }
+    console.log(selectedMonth, selectedYear);
 
-  function handleYearChange(option) {
-    setSelectedYear(option.value);
-  }
+    function handleMonthChange(option) {
+        setSelectedMonth(option);
+    }
 
-  return (
-    <div className="flex justify-between col-span-2">
-      <div>
-        <Title as="h1">{page} overview</Title>
-        <p className="text-[--color-gray-800]">
-          {getMonthDates(selectedMonth?.value, selectedYear)}
-        </p>
-      </div>
-      <div className="flex space-x-6">
-        <Select
-          options={months}
-          size="w-[15rem]"
-          onChange={handleMonthChange}
-          inputValue={selectedMonth}
-        />
-        <Select
-          options={years}
-          size="w-[10rem]"
-          onChange={handleYearChange}
-          inputValue={{ value: selectedYear, label: String(selectedYear) }}
-        />
-      </div>
-    </div>
-  );
+    function handleYearChange(option) {
+        setSelectedYear(option.value);
+    }
+
+    return (
+        <div className="flex justify-between col-span-2">
+            <div>
+                <Title as="h1">{page} overview</Title>
+                <p className="text-[--color-gray-800]">
+                    {getMonthDates(selectedMonth?.value, selectedYear)}
+                </p>
+            </div>
+            <div className="flex space-x-6">
+                <Select
+                    options={months}
+                    size="w-[15rem]"
+                    onChange={handleMonthChange}
+                    inputValue={selectedMonth}
+                />
+                <Select
+                    options={years}
+                    size="w-[10rem]"
+                    onChange={handleYearChange}
+                    inputValue={{
+                        value: selectedYear,
+                        label: String(selectedYear),
+                    }}
+                />
+            </div>
+        </div>
+    );
 }
 
 export default Overview;
