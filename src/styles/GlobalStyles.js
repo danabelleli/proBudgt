@@ -29,6 +29,16 @@ const GlobalStyles = createGlobalStyle`
 
   --color-white: #fff;
   --color-black: #000;
+  --color-red-dark: #8F1414;
+  --color-red-light: #B31919;
+
+  --shadow-sm: 0 2px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
+
+  --border-radius-sm: 1.5rem;
+  --border-radius-md: 2rem;
+
 }
 
 *,

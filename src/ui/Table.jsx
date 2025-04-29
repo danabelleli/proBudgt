@@ -3,9 +3,10 @@ import styled from "styled-components";
 
 const StyledTable = styled.div`
   overflow-y: scroll;
-  border-radius: 2rem;
+  border-radius: var(--border-radius-md);
   width: ${(props) => props.$width || "100%"};
   max-height: ${(props) => props.$height || "auto"};
+  box-shadow: var(--shadow-md);
 `;
 
 const CommonRow = styled.div`

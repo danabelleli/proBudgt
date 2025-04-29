@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import ProgressBar from "./ProgressBar";
-import Title from "./Title";
 
 const Container = styled.div`
   padding: 2.5rem 5rem;
   background-color: var(--color-white);
-  border-radius: 2rem;
+  border-radius: var(--border-radius-md);
   height: 16rem;
-  width: 50rem;
+  //width: 50rem;
+  box-shadow: var(--shadow-md);
 
   display: flex;
   flex-direction: column;

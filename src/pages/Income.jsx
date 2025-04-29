@@ -1,40 +1,65 @@
-import styled from "styled-components";
-import AdditionalIncome from "../features/icome/AdditionalIncome";
-import FixedIncome from "../features/icome/FixedIncome";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+
 import GoalProgress from "../ui/GoalProgress";
 import IncomeTable from "../features/icome/IncomeTable";
 import Overview from "../ui/Overview";
 import Title from "../ui/Title";
-import SetGoal from "../ui/SetGoal";
-
-const GridRow = styled.div`
-  display: grid;
-  // grid-template-columns: 14rem 1fr;
-  grid-template-columns: ${(props) => props.$columns || "14rem 1fr"};
-  column-gap: 2rem;
-`;
+import IncomeChart from "../features/icome/IncomeChart";
+import GridRow from "../ui/GridRow";
+import Button from "../ui/Button";
+import { useIncomes } from "../hooks/useIncomes";
 
 function Income() {
+  const { incomes, status } = useIncomes();
+
+  const location = useLocation();
+  const navigate = useNavigate();
   const goal = 5000;
   const moneyMade = 2000;
+  const isGoalSet = goal > 0;
+
+  function handleAdd() {
+    navigate("/income/addIncome");
+  }
+
+  if (status === "pending") return <Spinner />;
 
   return (
     <>
-      <Overview page="income" />
-      <GridRow>
-        <Title as="h3">goal progress</Title>
-        <GoalProgress goal={goal} moneyMade={moneyMade} />
-      </GridRow>
-      <GridRow>
-        <Title as="h3">income description</Title>
-        <IncomeTable />
-      </GridRow>
-      <GridRow $columns="14rem 1fr 1fr 1fr">
-        <Title as="h3">insert fixed, additional and goal income</Title>
-        <FixedIncome />
-        <AdditionalIncome />
-        <SetGoal />
-      </GridRow>
+      {location.pathname === "/income" ? (
+        <>
+          <Overview page="income" />
+          <GridRow>
+            <Title as="h3">
+              {isGoalSet ? "add income" : "add income & set income goal"}
+            </Title>
+            <div className="justify-self-end  space-x-4 ">
+              {!isGoalSet && (
+                <Button option="primary" size="large">
+                  set
+                </Button>
+              )}
+              <Button option="primary" size="large" onClick={handleAdd}>
+                add
+              </Button>
+            </div>
+          </GridRow>
+          <GridRow>
+            <Title as="h3">stats</Title>
+            <IncomeChart />
+          </GridRow>
+          <GridRow>
+            <Title as="h3">progress bar</Title>
+            <GoalProgress goal={goal} moneyMade={moneyMade} />
+          </GridRow>
+          <GridRow>
+            <Title as="h3">income breakdown</Title>
+            <IncomeTable incomes={incomes} />
+          </GridRow>
+        </>
+      ) : (
+        <Outlet />
+      )}
     </>
   );
 }

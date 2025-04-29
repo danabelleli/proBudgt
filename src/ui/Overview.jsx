@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Select from "./Select";
 import Title from "./Title";
-import { generateYears, getMonthDates } from "../utils/utilsFunctions";
+import { generateYears, getMonthDates } from "../utils/functions";
 import { months } from "../utils/data";
 
 function Overview({ page }) {

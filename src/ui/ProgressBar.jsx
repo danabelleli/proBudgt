@@ -1,13 +1,6 @@
-import { calculateProgress } from "../utils/utilsFunctions";
+import { calculateProgress } from "../utils/functions";
 
 function ProgressBar({ goal = 0, moneyMade = 0 }) {
-  // Calculate progress inside
-  // function calculateProgress(moneyMade, goal) {
-  //   if (!goal || goal === 0) return 0; // Avoid division by zero
-  //   const progress = (moneyMade / goal) * 100;
-  //   return Math.round(progress); // No cap, show real %
-  // }
-
   const progress = calculateProgress(moneyMade, goal);
   const visualProgress = Math.min(progress, 100); // Limit visual width to 100%
 
@@ -36,7 +29,7 @@ function ProgressBar({ goal = 0, moneyMade = 0 }) {
           {/* MoneyMade Label */}
           {moneyMade > 0 && (
             <span
-              className="absolute transform -translate-x-14 -translate-y-28 text-[1.4rem]"
+              className="absolute transform -translate-x-14 -translate-y-32 text-[1.6rem]"
               style={{ left: `${visualProgress}%` }}
             >
               {`$${moneyMade}`}

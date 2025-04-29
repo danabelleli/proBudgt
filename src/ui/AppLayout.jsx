@@ -18,7 +18,7 @@ const Main = styled.main`
   background-color: var(--color-secondary-300);
 
   @media (max-width: 1440px) {
-    padding: 5rem 5rem;
+    padding: 4rem 4rem;
   }
 `;
 

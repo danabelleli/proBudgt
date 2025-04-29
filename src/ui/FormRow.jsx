@@ -3,10 +3,10 @@ import styled from "styled-components";
 const StyledFormRow = styled.div`
   display: grid;
   align-items: center;
-  grid-template-columns: 8rem 1fr;
-  gap: 2.5rem;
+  grid-template-columns: 15rem 1fr;
+  gap: 5rem;
 
-  padding: 1rem 0;
+  padding: 1.3rem 0;
 
   &:first-child {
     padding-top: 0;
@@ -14,6 +14,14 @@ const StyledFormRow = styled.div`
 
   &:last-child {
     padding-bottom: 0;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  @media (max-width: 1440px) {
+    grid-template-columns: 10rem 1fr;
   }
 `;
 
