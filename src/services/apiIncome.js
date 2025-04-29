@@ -1,11 +1,26 @@
 import supabase from "./supabase";
 
-export default async function getIncomes() {
+export default async function getAllIncomes() {
   let { data, error } = await supabase.from("Income").select("*");
 
   if (error) {
     console.error(error);
     throw new Error("income could not be loaded");
+  }
+
+  return data;
+}
+
+export async function getMonthlyIncomes({ month, year }) {
+  const { data, error } = await supabase
+    .from("Income")
+    .select("*")
+    .eq("Month", month)
+    .eq("Year", year);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Income could not be loaded");
   }
 
   return data;

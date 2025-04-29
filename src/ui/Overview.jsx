@@ -1,58 +1,45 @@
-import { useState } from "react";
-import Select from "./Select";
-import Title from "./Title";
 import { generateYears, getMonthDates } from "../utils/functions";
 import { months } from "../utils/data";
 
-function Overview({ page }) {
-    const currentYear = new Date().getFullYear();
-    const years = generateYears();
+import Select from "./Select";
+import Title from "./Title";
 
-    const now = new Date();
-    const currentMonthIndex = now.getMonth(); // 0 = January, 1 = February, etc
+function Overview({ page, selectedMonth, selectedYear, onSelectDate }) {
+  const years = generateYears();
 
-    const [selectedMonth, setSelectedMonth] = useState(
-        months[currentMonthIndex]
-    );
-    const [selectedYear, setSelectedYear] = useState(currentYear);
-
-    console.log(selectedMonth, selectedYear);
-
-    function handleMonthChange(option) {
-        setSelectedMonth(option);
-    }
-
-    function handleYearChange(option) {
-        setSelectedYear(option.value);
-    }
-
-    return (
-        <div className="flex justify-between col-span-2">
-            <div>
-                <Title as="h1">{page} overview</Title>
-                <p className="text-[--color-gray-800]">
-                    {getMonthDates(selectedMonth?.value, selectedYear)}
-                </p>
-            </div>
-            <div className="flex space-x-6">
-                <Select
-                    options={months}
-                    size="w-[15rem]"
-                    onChange={handleMonthChange}
-                    inputValue={selectedMonth}
-                />
-                <Select
-                    options={years}
-                    size="w-[10rem]"
-                    onChange={handleYearChange}
-                    inputValue={{
-                        value: selectedYear,
-                        label: String(selectedYear),
-                    }}
-                />
-            </div>
-        </div>
-    );
+  return (
+    <div className="flex justify-between col-span-2">
+      <div>
+        <Title as="h1">{page} overview</Title>
+        <p className="text-[--color-gray-800]">
+          {getMonthDates(selectedMonth, selectedYear)}
+        </p>
+      </div>
+      <div className="flex space-x-6">
+        <Select
+          options={months}
+          size="w-[15rem]"
+          onChange={(option) =>
+            onSelectDate({ month: Number(option.value), year: selectedYear })
+          }
+          inputValue={months.find(
+            (m) => Number(m.value) === Number(selectedMonth)
+          )}
+        />
+        <Select
+          options={years}
+          size="w-[10rem]"
+          onChange={(option) =>
+            onSelectDate({
+              month: Number(selectedMonth),
+              year: Number(option.value),
+            })
+          }
+          inputValue={{ value: selectedYear, label: String(selectedYear) }}
+        />
+      </div>
+    </div>
+  );
 }
 
 export default Overview;
