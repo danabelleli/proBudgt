@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { DayPicker } from "react-day-picker";
 import { format, isValid, parse } from "date-fns";
 import { CalendarDateRangeIcon } from "@heroicons/react/20/solid";
@@ -11,6 +12,8 @@ function DatePicker({
   handleIsOpen,
   onKeyDown,
 }) {
+  const [currentMonth, setCurrentMonth] = useState(new Date()); // 👈 add this
+
   const handleInputChange = (e) => {
     onChange(e.target.value);
   };
@@ -21,6 +24,7 @@ function DatePicker({
     } else {
       onChange(format(date, "MM/dd/yyyy"));
       handleIsOpen(false);
+      setCurrentMonth(date); // update visible month to selected date
     }
   };
 
@@ -29,6 +33,7 @@ function DatePicker({
       const parsedDate = parse(selected, "MM/dd/yyyy", new Date());
       if (isValid(parsedDate)) {
         onChange(format(parsedDate, "MM/dd/yyyy"));
+        setCurrentMonth(parsedDate); // update month when typing valid date
       } else {
         onChange("");
       }
@@ -65,20 +70,20 @@ function DatePicker({
       {isOpen && (
         <div className="absolute top-full left-0 z-50 mt-2 w-max rounded-[1.5rem] border bg-white p-4 shadow-lg">
           <DayPicker
-            month={parsedDate || new Date()}
-            onMonthChange={(month) => {}}
+            month={currentMonth} // 👈 controlled by your own state
+            onMonthChange={setCurrentMonth} // 👈 update month when user selects a new one
             mode="single"
             selected={parsedDate}
             onSelect={handleDayPickerSelect}
             captionLayout="dropdown"
             weekStartsOn={0}
-            startMonth={new Date(2009, 1)}
-            endMonth={new Date(2098, 9)}
+            fromMonth={new Date(2009, 1)} // (fixed the prop name: it's "fromMonth" not "startMonth")
+            toMonth={new Date(2098, 9)} // (and "toMonth" not "endMonth")
             classNames={{
               chevron: `fill-[--color-primary-900]`,
               today: "text-[--color-primary-900]",
               selected:
-                "font-bold border-2 rounded rounded-full border-[--color-primary-900]",
+                "font-bold border-2 rounded-full border-[--color-primary-900]",
             }}
           />
         </div>

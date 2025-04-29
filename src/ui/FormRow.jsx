@@ -33,7 +33,7 @@ const Label = styled.label`
 `;
 
 const Error = styled.span`
-  color: red;
+  color: var(--color-red-dark);
   font-size: 1.4rem;
 `;
 
@@ -41,8 +41,10 @@ function FormRow({ label, error, children }) {
   return (
     <StyledFormRow>
       {label && <Label htmlFor={children?.props?.id}>{label}</Label>}
-      {children}
-      {error && <Error>{error}</Error>}
+      <div className="flex flex-col items-end gap-4">
+        {children}
+        {error && <Error>{error}</Error>}
+      </div>
     </StyledFormRow>
   );
 }

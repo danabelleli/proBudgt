@@ -23,6 +23,8 @@ import Title from "../../ui/Title";
 import Row from "../../ui/Row";
 import Button from "../../ui/Button";
 import DatePicker from "../../ui/DatePicker";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 function IncomeForm() {
   const location = useLocation();
@@ -149,15 +151,25 @@ function IncomeForm() {
       </Row>
 
       <Form name="incomeForm" onSubmit={handleSubmit(onSubmit)}>
-        <FormRow label="title" id="incomeTitle">
+        <FormRow
+          label="title"
+          id="incomeTitle"
+          error={errors?.Description?.message}
+        >
           <Input
             type="text"
             id="incomeTitle"
             onKeyDown={handleEnter}
-            {...register("Description")}
+            {...register("Description", {
+              required: "This field is requiered",
+            })}
           />
         </FormRow>
-        <FormRow label="amount" id="incomeAmount">
+        <FormRow
+          label="amount"
+          id="incomeAmount"
+          error={errors?.Amount?.message}
+        >
           <Input
             type="text"
             id="incomeAmount"
@@ -172,6 +184,7 @@ function IncomeForm() {
         <FormRow
           className={isOpen ? "items-start" : "items-center"}
           label="date"
+          error={errors?.TransactionDate?.message}
         >
           <Controller
             control={control}
@@ -193,32 +206,39 @@ function IncomeForm() {
               />
             )}
           />
-          {errors?.TransactionDate?.message && (
+          {/* {errors?.TransactionDate?.message && (
             <Error>{errors.TransactionDate.message}</Error>
-          )}
+          )} */}
         </FormRow>
 
-        <FormRow label="cycle" id="incomeCycle">
+        <FormRow label="cycle" id="incomeCycle" error={errors?.Cycle?.message}>
           <Input
             type="text"
             id="incomeCycle"
             onKeyDown={handleEnter}
-            {...register("Cycle")}
+            {...register("Cycle", {
+              required: "This field is requiered",
+            })}
           />
         </FormRow>
         <div className="flex justify-end pt-6 col-start-2 space-x-6">
           {isEditSession && (
-            <Button
-              option="danger"
-              size="medium"
-              type="button"
-              disabled={isUpdating}
-              onClick={() => removeIncome(id)}
-            >
-              delete
-            </Button>
+            <Modal>
+              <Modal.Open opens="deleteMSG">
+                <Button option="danger" size="medium" type="button">
+                  delete
+                </Button>
+              </Modal.Open>
+              <Modal.Window name="deleteMSG">
+                <ConfirmDelete
+                  resourceName="income"
+                  disabled={isUpdating}
+                  onConfirm={() => removeIncome(id)}
+                />
+              </Modal.Window>
+            </Modal>
           )}
-          <Button option="primary" size="medium" disabled={isUpdating}>
+          <Button option="primary" size="large" disabled={isUpdating}>
             {isEditSession ? "update" : "add"}
           </Button>
         </div>
