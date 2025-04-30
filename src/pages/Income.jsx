@@ -13,15 +13,19 @@ import Button from "../ui/Button";
 import Spinner from "../ui/Spinner";
 import SetGoalForm from "../ui/SetGoalForm";
 import Modal from "../ui/Modal";
+import { useMonthlyGoal } from "../hooks/useMonthlyGoal";
 
 function Income() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const now = new Date();
+
   const [selectedDate, setSelectedDate] = useState({
     month: now.getMonth() + 1, // JS months are 0-based (Jan = 0)
     year: now.getFullYear(),
   });
 
-  const { data: incomes = [], status } = useMonthlyIncomes(
+  const { data: incomes = [], status: incomeStatus } = useMonthlyIncomes(
     selectedDate.month,
     selectedDate.year
   );
@@ -29,6 +33,11 @@ function Income() {
   const totalIncome = incomes.reduce(
     (total, income) => total + Number(income.Amount || 0),
     0
+  );
+
+  const { data: monthlyGoal, status: goalStatus } = useMonthlyGoal(
+    selectedDate.month,
+    selectedDate.year
   );
 
   function generateChartData(incomes, monthDays = 31) {
@@ -49,17 +58,16 @@ function Income() {
 
   const chartData = generateChartData(incomes);
 
-  const location = useLocation();
-  const navigate = useNavigate();
-  const goal = 0;
-  const moneyMade = totalIncome;
+  const goal = monthlyGoal?.Goal;
   const isGoalSet = goal > 0;
+
+  const moneyMade = totalIncome;
 
   function handleAdd() {
     navigate("/income/addIncome");
   }
 
-  if (status === "pending") return <Spinner />;
+  if (incomeStatus === "pending") return <Spinner />;
 
   return (
     <>
@@ -84,7 +92,7 @@ function Income() {
                     </Button>
                   </Modal.Open>
                   <Modal.Window name="setIncomeGoal">
-                    <SetGoalForm />
+                    <SetGoalForm selectedDate={selectedDate} />
                   </Modal.Window>
                 </Modal>
               )}

@@ -159,6 +159,7 @@ function IncomeForm() {
           <Input
             type="text"
             id="incomeTitle"
+            disabled={isCreating}
             onKeyDown={handleEnter}
             {...register("Description", {
               required: "This field is requiered",
@@ -173,6 +174,7 @@ function IncomeForm() {
           <Input
             type="text"
             id="incomeAmount"
+            disabled={isCreating}
             onKeyDown={handleEnter}
             {...register("Amount", {
               onChange: (e) => handleFormat(e, "Amount", setValue),
@@ -193,7 +195,7 @@ function IncomeForm() {
             }}
             id="TransactionDate"
             name="TransactionDate"
-            // disabled={isPending}
+            disabled={isCreating}
             render={({ field: { onChange, onBlur, value } }) => (
               <DatePicker
                 onChange={onChange} // send value to hook form
@@ -206,26 +208,24 @@ function IncomeForm() {
               />
             )}
           />
-          {/* {errors?.TransactionDate?.message && (
-            <Error>{errors.TransactionDate.message}</Error>
-          )} */}
         </FormRow>
 
         <FormRow label="cycle" id="incomeCycle" error={errors?.Cycle?.message}>
           <Input
             type="text"
             id="incomeCycle"
+            disabled={isCreating}
             onKeyDown={handleEnter}
             {...register("Cycle", {
               required: "This field is requiered",
             })}
           />
         </FormRow>
-        <div className="flex justify-end pt-6 col-start-2 space-x-6">
+        <div className="flex justify-end pt-12 col-start-2 space-x-6">
           {isEditSession && (
             <Modal>
               <Modal.Open opens="deleteMSG">
-                <Button option="danger" size="medium" type="button">
+                <Button option="danger" size="large" type="button">
                   delete
                 </Button>
               </Modal.Open>
