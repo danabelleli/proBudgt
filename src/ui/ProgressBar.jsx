@@ -22,8 +22,12 @@ function ProgressBar({ goal = 0, moneyMade = 0 }) {
       <div className="w-full h-16 bg-[--color-gray-200] rounded-[1.5rem] overflow-hidden">
         {progress > 0 && (
           <div
-            className="h-16 flex items-center justify-center bg-[--color-primary-500] rounded-[1.5rem] dark:bg-[--color-gray-200] text-[1.4rem] font-medium transition-all duration-300"
-            style={{ width: `${visualProgress}%` }}
+            className="h-16 flex items-center justify-center rounded-[1.5rem] text-[1.4rem] font-medium transition-all duration-300"
+            style={{
+              width: `${visualProgress}%`,
+              backgroundImage: "linear-gradient(to right, #b5c99a, #505d3c)",
+              color: "#fff",
+            }}
           >
             {`${progress}%`}
           </div>

@@ -18,7 +18,7 @@ function IncomeRow({ income }) {
       <p>{formattedDate}</p>
       <p>{Description}</p>
       <p>{`$ ${formattedAmount}`}</p>
-      <Link to={`/income/${Id}`} state={income}>
+      <Link to={`/incomes/${Id}`} state={income}>
         <PencilIcon className="cursor-pointer" />
       </Link>
     </Table.Row>

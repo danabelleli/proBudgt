@@ -7,6 +7,11 @@ const StyledTable = styled.div`
   width: ${(props) => props.$width || "100%"};
   max-height: ${(props) => props.$height || "auto"};
   box-shadow: var(--shadow-md);
+
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
 `;
 
 const CommonRow = styled.div`

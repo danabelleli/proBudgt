@@ -4,8 +4,8 @@ import ExpenseRow from "./ExpenseRow";
 function ExpensesTable({ expenses }) {
   return (
     <Table
-      columns="10rem 1fr 20rem 10rem 2rem"
-      columnsMobile="10rem 1fr 14rem 10rem 2rem"
+      columns="6rem 1fr 20rem 10rem 2rem"
+      columnsMobile="6rem 1fr 16rem 10rem 2rem"
       height="40rem"
     >
       <Table.Header>

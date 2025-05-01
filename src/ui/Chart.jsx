@@ -10,9 +10,9 @@ import {
 import styled from "styled-components";
 
 const colors = {
-  Income: {
-    stroke: "#505d3c",
-    fill: "#e9f5db",
+  Green: {
+    Stroke: "#505d3c",
+    Fill: "#e9f5db",
   },
 };
 
@@ -27,21 +27,21 @@ const Container = styled.div`
   align-items: center;
 `;
 
-function IncomeChart({ totalIncome }) {
+function Chart({ total, chartName }) {
   return (
     <Container>
       <ResponsiveContainer height={200} width="100%">
-        <AreaChart data={totalIncome}>
-          <XAxis dataKey="label" interval={0} />
+        <AreaChart data={total}>
+          <XAxis dataKey="label" interval={1} />
           <YAxis unit="$" />
           <CartesianGrid />
           <Tooltip />
           <Area
-            dataKey="totalIncome"
+            dataKey="total"
             type="monotone"
-            stroke={colors.Income.stroke}
-            fill={colors.Income.fill}
-            name="income"
+            stroke={colors.Green.Stroke}
+            fill={colors.Green.Fill}
+            name={chartName}
             unit="$"
           />
         </AreaChart>
@@ -50,4 +50,4 @@ function IncomeChart({ totalIncome }) {
   );
 }
 
-export default IncomeChart;
+export default Chart;

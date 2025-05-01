@@ -1,3 +1,5 @@
+import { getDate, parseISO } from "date-fns";
+
 export function calculateProgress(moneyMade, goal) {
   const safeMoneyMade = Number(moneyMade) || 0;
   const safeGoal = Number(goal) || 0;
@@ -75,3 +77,19 @@ export const handleEnter = (e) => {
     e.preventDefault();
   }
 };
+
+export function generateChartData(arr, monthDays = 31) {
+  const dailyTotal = Array.from({ length: monthDays }, (_, i) => ({
+    label: String(i + 1),
+    total: 0,
+  }));
+
+  arr.forEach((item) => {
+    if (!item.TransactionDate) return;
+    const parsedDate = parseISO(item.TransactionDate);
+    const day = getDate(parsedDate);
+    dailyTotal[day - 1].total += Number(item.Amount || 0);
+  });
+
+  return dailyTotal;
+}

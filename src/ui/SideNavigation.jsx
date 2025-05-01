@@ -67,8 +67,8 @@ const navigationLinks = [
     name: "settings",
     href: "/settings",
     icon: {
-      outline: <CogIconOutline className="size-10" />,
-      solid: <CogIconSolid className="size-10" />,
+      outline: <CogIconOutline />,
+      solid: <CogIconSolid />,
     },
   },
 ];
@@ -97,6 +97,16 @@ const NavContent = styled.nav`
   @media (max-width: 1440px) {
     gap: 4rem;
   }
+
+  & button svg {
+    width: 2.5rem;
+    height: 2.5rem;
+
+    @media (max-width: 1440px) {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
 `;
 
 const Logo = styled.h2`
@@ -121,6 +131,20 @@ const StyledUl = styled.ul`
   flex-direction: column;
   gap: 0.5rem;
   width: 100%;
+
+  & svg {
+    width: 2.5rem;
+    height: 2.5rem;
+
+    @media (max-width: 1440px) {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  @media (max-width: 1440px) {
+    gap: 0.2rem;
+  }
 `;
 
 const Avatar = styled.div`
@@ -145,6 +169,11 @@ const StyledNavLink = styled(NavLink)`
     font-size: 1.8rem;
     border-radius: 1.5rem;
     transition: all 0.2s ease;
+    align-items: center;
+
+    @media (max-width: 1440px) {
+      font-size: 1.6rem;
+    }
   }
 
   &:hover {
@@ -193,7 +222,7 @@ function SideNavigation() {
           size="medium"
           className="mt-auto flex gap-4 items-center w-full"
         >
-          <ArrowLeftStartOnRectangleIcon className="size-10" />
+          <ArrowLeftStartOnRectangleIcon />
           log out
         </Button>
       </NavContent>

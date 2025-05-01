@@ -20,6 +20,11 @@ const Main = styled.main`
   @media (max-width: 1440px) {
     padding: 4rem 4rem;
   }
+
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
 `;
 
 const Container = styled.div`

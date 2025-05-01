@@ -1,16 +1,19 @@
 import { useState } from "react";
-import Overview from "../ui/Overview";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import GridRow from "../ui/GridRow";
 import { useMonthlyGoal } from "../hooks/useMonthlyGoal";
+import { useMonthlyExpenses } from "../hooks/useMonthlyExpenses";
+import { generateChartData } from "../utils/functions";
+
+import Overview from "../ui/Overview";
+import GridRow from "../ui/GridRow";
 import Title from "../ui/Title";
 import Modal from "../ui/Modal";
 import SetGoalForm from "../ui/SetGoalForm";
 import Button from "../ui/Button";
 import ExpensesTable from "../features/expenses/ExpensesTable";
-import { useMonthlyExpenses } from "../hooks/useMonthlyExpenses";
 import GoalProgress from "../ui/GoalProgress";
 import Spinner from "../ui/Spinner";
+import Chart from "../ui/Chart";
 
 function Expenses() {
   const location = useLocation();
@@ -38,6 +41,8 @@ function Expenses() {
     selectedDate.year,
     "expenses"
   );
+
+  const chartData = generateChartData(expenses);
 
   const goal = monthlyGoal?.Goal;
   const isGoalSet = goal > 0;
@@ -82,6 +87,10 @@ function Expenses() {
                 add
               </Button>
             </div>
+          </GridRow>
+          <GridRow>
+            <Title as="h3">stats</Title>
+            <Chart total={chartData} chartName="expenses" />
           </GridRow>
           <GridRow>
             <Title as="h3">progress bar</Title>
