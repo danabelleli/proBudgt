@@ -47,7 +47,7 @@ function DatePicker({
     : undefined;
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center w-full">
       <Input
         type="text"
         value={selected || ""}
@@ -77,8 +77,8 @@ function DatePicker({
             onSelect={handleDayPickerSelect}
             captionLayout="dropdown"
             weekStartsOn={0}
-            fromMonth={new Date(2009, 1)} // (fixed the prop name: it's "fromMonth" not "startMonth")
-            toMonth={new Date(2098, 9)} // (and "toMonth" not "endMonth")
+            // fromMonth={new Date(2009, 1)} // (fixed the prop name: it's "fromMonth" not "startMonth")
+            // toMonth={new Date(2098, 9)} // (and "toMonth" not "endMonth")
             classNames={{
               chevron: `fill-[--color-primary-900]`,
               today: "text-[--color-primary-900]",

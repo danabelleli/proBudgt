@@ -20,6 +20,12 @@ const CommonRow = styled.div`
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-gray-200);
   }
+
+  @media (max-width: 1440px) {
+    grid-template-columns: ${(props) =>
+      props.$columnsMobile ||
+      props.$columns}; // fallback to normal if not provided
+  }
 `;
 
 const StyledHeader = styled(CommonRow)`
@@ -61,9 +67,15 @@ const StyledFooter = styled.footer`
 
 const TableContext = createContext();
 
-function Table({ columns = "1fr", width = "100%", height = "auto", children }) {
+function Table({
+  columns = "1fr",
+  columnsMobile,
+  width = "100%",
+  height = "auto",
+  children,
+}) {
   return (
-    <TableContext.Provider value={{ columns }}>
+    <TableContext.Provider value={{ columns, columnsMobile }}>
       <StyledTable role="table" $width={width} $height={height}>
         {children}
       </StyledTable>
@@ -72,17 +84,17 @@ function Table({ columns = "1fr", width = "100%", height = "auto", children }) {
 }
 
 function Header({ children }) {
-  const { columns } = useContext(TableContext);
+  const { columns, columnsMobile } = useContext(TableContext);
   return (
-    <StyledHeader role="row" $columns={columns}>
+    <StyledHeader role="row" $columns={columns} $columnsMobile={columnsMobile}>
       {children}
     </StyledHeader>
   );
 }
 function Row({ children }) {
-  const { columns } = useContext(TableContext);
+  const { columns, columnsMobile } = useContext(TableContext);
   return (
-    <StyledRow role="row" $columns={columns}>
+    <StyledRow role="row" $columns={columns} $columnsMobile={columnsMobile}>
       {children}
     </StyledRow>
   );

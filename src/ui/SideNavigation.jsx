@@ -32,8 +32,8 @@ const navigationLinks = [
     },
   },
   {
-    name: "income",
-    href: "/income",
+    name: "incomes",
+    href: "/incomes",
     icon: {
       outline: <BanknotesIconOutline className="size-10" />,
       solid: <BanknotesIconSolid className="size-10" />,

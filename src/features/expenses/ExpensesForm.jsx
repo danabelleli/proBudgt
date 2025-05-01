@@ -25,76 +25,89 @@ import Button from "../../ui/Button";
 import DatePicker from "../../ui/DatePicker";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import {
+  addExpense,
+  deleteExpense,
+  updateExpense,
+} from "../../services/apiExpenses";
+import Select from "../../ui/Select";
+import { personalCategories } from "../../utils/data";
 
-function IncomeForm() {
+function ExpensesForm() {
   const location = useLocation();
-  const income = location.state;
+  const expense = location.state;
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
-  const isEditSession = Boolean(income?.Id);
-  const id = income?.Id;
+  const isEditSession = Boolean(expense?.Id);
+  const id = expense?.Id;
 
   const { register, handleSubmit, formState, setValue, reset, control } =
     useForm({
       defaultValues: isEditSession
         ? {
-            ...income,
+            ...expense,
             TransactionDate: format(
-              parseISO(income.TransactionDate),
+              parseISO(expense.TransactionDate),
               "MM/dd/yyyy"
             ),
+            Category:
+              personalCategories.find(
+                (cat) => cat.value === expense.Category
+              ) || null,
           }
         : {
             Description: "",
             Amount: "",
             TransactionDate: null,
             Cycle: "",
+            Category: null,
           },
     });
   const { errors } = formState;
 
   // Immedietly displaying Amount as a formatted field
   useEffect(() => {
-    if (income) {
-      setValue("Amount", formatNumber(income.Amount));
+    if (expense) {
+      setValue("Amount", formatNumber(expense.Amount));
     }
-  }, [income, setValue]);
+  }, [expense, setValue]);
 
   function handleBack() {
-    navigate("/incomes");
+    navigate("/expenses");
   }
 
-  const { mutate: createIncome, isPending: isCreating } = useMutation({
-    mutationFn: addIncome,
+  const { mutate: createExpense, isPending: isCreating } = useMutation({
+    mutationFn: addExpense,
     onSuccess: () => {
-      toast.success("Income successfully added");
-      queryClient.invalidateQueries({ queryKey: ["incomes"] });
+      toast.success("Expense successfully added");
+      queryClient.invalidateQueries({ queryKey: ["expenses"] });
       reset({
         Description: "",
         Amount: "",
         TransactionDate: null, // Important
         Cycle: "",
+        Category: null,
       });
     },
     onError: (err) => toast.error(err.message),
   });
 
-  const { mutate: editIncome, isPending: isEditing } = useMutation({
-    mutationFn: ({ id, newData }) => updateIncome({ id, newData }),
+  const { mutate: editExpense, isPending: isEditing } = useMutation({
+    mutationFn: ({ id, newData }) => updateExpense({ id, newData }),
     onSuccess: () => {
-      toast.success("Income successfully updated");
-      queryClient.invalidateQueries({ queryKey: ["incomes"] });
+      toast.success("Expense successfully updated");
+      queryClient.invalidateQueries({ queryKey: ["expenses"] });
       handleBack();
     },
     onError: (err) => toast.error(err.message),
   });
 
-  const { mutate: removeIncome, isPending: isDeleting } = useMutation({
-    mutationFn: (id) => deleteIncome(id),
+  const { mutate: removeExpense, isPending: isDeleting } = useMutation({
+    mutationFn: (id) => deleteExpense(id),
     onSuccess: () => {
-      toast.success("Income successfully deleted");
-      queryClient.invalidateQueries({ queryKey: ["incomes"] });
+      toast.success("Expense successfully deleted");
+      queryClient.invalidateQueries({ queryKey: ["expenses"] });
       handleBack();
     },
     onError: (err) => toast.error(err.message),
@@ -125,13 +138,16 @@ function IncomeForm() {
       Year: year,
       Amount: parseNumber(data.Amount),
       Cycle: Number(data.Cycle),
+      Category: data.Category.value,
     };
 
     if (isEditSession) {
-      editIncome({ id: income.Id, newData });
+      editExpense({ id: expense.Id, newData });
     } else {
-      createIncome(newData);
+      createExpense(newData);
     }
+
+    // console.log(newData);
   }
 
   return (
@@ -145,12 +161,12 @@ function IncomeForm() {
         </div>
         {isEditSession && (
           <p className="text-[--color-gray-800] font-medium">
-            {income.Description}
+            {expense.Description}
           </p>
         )}
       </Row>
 
-      <Form name="incomeForm" onSubmit={handleSubmit(onSubmit)}>
+      <Form name="expensesForm" onSubmit={handleSubmit(onSubmit)}>
         <FormRow label="title" id="title" error={errors?.Description?.message}>
           <Input
             type="text"
@@ -213,6 +229,26 @@ function IncomeForm() {
             })}
           />
         </FormRow>
+
+        <FormRow
+          label="Category"
+          id="category"
+          error={errors?.Category?.message}
+        >
+          <Controller
+            control={control}
+            name="Category"
+            rules={{ required: "This field is requiered" }}
+            render={({ field: { onChange, value } }) => (
+              <Select
+                options={personalCategories}
+                inputValue={value ?? null}
+                onChange={onChange}
+              />
+            )}
+          />
+        </FormRow>
+
         <div className="flex justify-end pt-12 col-start-2 space-x-6">
           {isEditSession && (
             <Modal>
@@ -223,9 +259,9 @@ function IncomeForm() {
               </Modal.Open>
               <Modal.Window name="deleteMSG">
                 <ConfirmDelete
-                  resourceName="income"
+                  resourceName="expense"
                   disabled={isUpdating}
-                  onConfirm={() => removeIncome(id)}
+                  onConfirm={() => removeExpense(id)}
                 />
               </Modal.Window>
             </Modal>
@@ -239,4 +275,4 @@ function IncomeForm() {
   );
 }
 
-export default IncomeForm;
+export default ExpensesForm;

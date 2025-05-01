@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { getMonthlyGoal } from "../services/apiGoals";
 
-export function useMonthlyGoal(month, year) {
+export function useMonthlyGoal(month, year, category = "income") {
   return useQuery({
-    queryKey: ["goals", month, year],
-    queryFn: () => getMonthlyGoal({ month, year }),
-    enabled: !!month && !!year, // prevents running on initial undefined
+    queryKey: ["goals", month, year, category],
+    queryFn: () => getMonthlyGoal({ month, year, category }),
+    enabled: !!month && !!year && !!category, // prevents running on initial undefined
   });
 }

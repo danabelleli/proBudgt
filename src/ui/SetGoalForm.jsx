@@ -21,7 +21,7 @@ const Error = styled.span`
   font-size: 1.4rem;
 `;
 
-function SetGoalForm({ selectedDate, onCloseModal }) {
+function SetGoalForm({ selectedDate, onCloseModal, category }) {
   const { register, handleSubmit, formState, setValue } = useForm();
   const { errors } = formState;
   const { month, year } = selectedDate;
@@ -42,6 +42,7 @@ function SetGoalForm({ selectedDate, onCloseModal }) {
       Goal: parseNumber(data.Goal),
       Month: month,
       Year: year,
+      Category: category,
     };
     createGoal(newData);
   }
@@ -49,9 +50,9 @@ function SetGoalForm({ selectedDate, onCloseModal }) {
   return (
     <>
       <div>
-        <Title as="h2">set goal</Title>
+        <Title as="h2">set a goal</Title>
         <p className="text-[--color-gray-800]">
-          you can only set a monthly goal once, set it wisely.
+          Monthly goals can only be set once. Choose carefully.
         </p>
       </div>
       <form

@@ -15,10 +15,11 @@ import SetGoalForm from "../ui/SetGoalForm";
 import Modal from "../ui/Modal";
 import { useMonthlyGoal } from "../hooks/useMonthlyGoal";
 
-function Income() {
+function Incomes() {
   const location = useLocation();
   const navigate = useNavigate();
   const now = new Date();
+  const goalCategory = "incomes";
 
   const [selectedDate, setSelectedDate] = useState({
     month: now.getMonth() + 1, // JS months are 0-based (Jan = 0)
@@ -35,9 +36,10 @@ function Income() {
     0
   );
 
-  const { data: monthlyGoal, status: goalStatus } = useMonthlyGoal(
+  const { data: monthlyGoal } = useMonthlyGoal(
     selectedDate.month,
-    selectedDate.year
+    selectedDate.year,
+    "incomes"
   );
 
   function generateChartData(incomes, monthDays = 31) {
@@ -61,38 +63,39 @@ function Income() {
   const goal = monthlyGoal?.Goal;
   const isGoalSet = goal > 0;
 
-  const moneyMade = totalIncome;
-
   function handleAdd() {
-    navigate("/income/addIncome");
+    navigate("/incomes/addIncome");
   }
 
   if (incomeStatus === "pending") return <Spinner />;
 
   return (
     <>
-      {location.pathname === "/income" ? (
+      {location.pathname === "/incomes" ? (
         <>
           <Overview
-            page="income"
+            page="incomes"
             selectedMonth={selectedDate.month}
             selectedYear={selectedDate.year}
             onSelectDate={setSelectedDate}
           />
           <GridRow>
             <Title as="h3">
-              {isGoalSet ? "add income" : "add income & set income goal"}
+              {isGoalSet ? "add income" : "add an income & set a goal"}
             </Title>
             <div className="justify-self-end space-x-4">
               {!isGoalSet && (
                 <Modal>
-                  <Modal.Open opens="setIncomeGoal">
+                  <Modal.Open opens="setGoal">
                     <Button option="primary" size="large">
                       set
                     </Button>
                   </Modal.Open>
-                  <Modal.Window name="setIncomeGoal">
-                    <SetGoalForm selectedDate={selectedDate} />
+                  <Modal.Window name="setGoal">
+                    <SetGoalForm
+                      selectedDate={selectedDate}
+                      category={goalCategory}
+                    />
                   </Modal.Window>
                 </Modal>
               )}
@@ -107,7 +110,7 @@ function Income() {
           </GridRow>
           <GridRow>
             <Title as="h3">progress bar</Title>
-            <GoalProgress goal={goal} moneyMade={moneyMade} />
+            <GoalProgress goal={goal} moneyMade={totalIncome} />
           </GridRow>
           {incomes.length !== 0 && (
             <GridRow>
@@ -123,4 +126,4 @@ function Income() {
   );
 }
 
-export default Income;
+export default Incomes;

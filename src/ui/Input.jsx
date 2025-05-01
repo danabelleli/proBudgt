@@ -8,6 +8,7 @@ const Input = styled.input`
   padding: 1rem 1rem;
   height: 4rem;
   font-size: 1.6rem;
+  width: 100%;
 
   transition: all 0.2s ease;
 

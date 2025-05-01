@@ -10,7 +10,7 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 export default function Select({ size, options, onChange, inputValue }) {
   return (
     <Listbox value={inputValue} onChange={onChange}>
-      <div className="relative">
+      <div className="relative w-full">
         <ListboxButton
           className={`grid ${
             size ? size : "w-full"

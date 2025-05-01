@@ -9,7 +9,6 @@ import {
 } from "recharts";
 import styled from "styled-components";
 
-
 const colors = {
   Income: {
     stroke: "#505d3c",
@@ -33,7 +32,7 @@ function IncomeChart({ totalIncome }) {
     <Container>
       <ResponsiveContainer height={200} width="100%">
         <AreaChart data={totalIncome}>
-          <XAxis dataKey="label" />
+          <XAxis dataKey="label" interval={0} />
           <YAxis unit="$" />
           <CartesianGrid />
           <Tooltip />

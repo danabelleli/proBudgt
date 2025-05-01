@@ -1,11 +1,11 @@
 import supabase from "./supabase";
 
 export default async function getAllIncomes() {
-  let { data, error } = await supabase.from("Income").select("*");
+  let { data, error } = await supabase.from("Incomes").select("*");
 
   if (error) {
     console.error(error);
-    throw new Error("income could not be loaded");
+    throw new Error("Income could not be loaded");
   }
 
   return data;
@@ -13,7 +13,7 @@ export default async function getAllIncomes() {
 
 export async function getMonthlyIncomes({ month, year }) {
   const { data, error } = await supabase
-    .from("Income")
+    .from("Incomes")
     .select("*")
     .eq("Month", month)
     .eq("Year", year);
@@ -28,7 +28,7 @@ export async function getMonthlyIncomes({ month, year }) {
 
 export async function getIncome(id) {
   const { data, error } = await supabase
-    .from("Income")
+    .from("Incomes")
     .select("*")
     .eq("Id", id)
     .single();
@@ -43,20 +43,20 @@ export async function getIncome(id) {
 
 export async function addIncome(newIncome) {
   const { data, error } = await supabase
-    .from("Income")
+    .from("Incomes")
     .insert([newIncome])
     .select();
 
   if (error) {
     console.error(error);
-    throw new Error("income could not be loaded");
+    throw new Error("Income could not be loaded");
   }
   return data;
 }
 
 export async function updateIncome({ id, newData }) {
   const { data, error } = await supabase
-    .from("Income")
+    .from("Incomes")
     .update(newData)
     .eq("Id", id)
     .select()
@@ -71,9 +71,9 @@ export async function updateIncome({ id, newData }) {
 }
 
 export async function deleteIncome(id) {
-  const { error } = await supabase.from("Income").delete().eq("Id", id);
+  const { error } = await supabase.from("Incomes").delete().eq("Id", id);
   if (error) {
     console.error(error);
-    throw new Error("income could not be deleted");
+    throw new Error("Income could not be deleted");
   }
 }
