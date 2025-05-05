@@ -41,15 +41,17 @@ export async function getIncome(id) {
   return data;
 }
 
-export async function addIncome(newIncome) {
+export async function addIncome(newIncomes) {
+  const incomesArray = Array.isArray(newIncomes) ? newIncomes : [newIncomes];
+
   const { data, error } = await supabase
     .from("Incomes")
-    .insert([newIncome])
+    .insert(incomesArray)
     .select();
 
   if (error) {
     console.error(error);
-    throw new Error("Income could not be loaded");
+    throw new Error("Income could not be added");
   }
   return data;
 }

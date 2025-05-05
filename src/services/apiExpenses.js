@@ -15,10 +15,14 @@ export default async function getMonthlyExpenses({ month, year }) {
   return data;
 }
 
-export async function addExpense(newExpense) {
+export async function addExpense(newExpenses) {
+  const expensesArray = Array.isArray(newExpenses)
+    ? newExpenses
+    : [newExpenses];
+
   const { data, error } = await supabase
     .from("Expenses")
-    .insert([newExpense])
+    .insert(expensesArray)
     .select();
 
   if (error) {

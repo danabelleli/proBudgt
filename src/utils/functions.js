@@ -1,4 +1,4 @@
-import { getDate, parseISO } from "date-fns";
+import { addMonths, getDate, parseISO, set } from "date-fns";
 
 export function calculateProgress(moneyMade, goal) {
   const safeMoneyMade = Number(moneyMade) || 0;
@@ -92,4 +92,32 @@ export function generateChartData(arr, monthDays = 31) {
   });
 
   return dailyTotal;
+}
+
+export function generateCycledEntries(data) {
+  const [yearStr, monthStr, dayStr] = data.TransactionDate.split("-");
+  const originalYear = Number(yearStr);
+  const originalMonth = Number(monthStr); // 1-based
+  const originalDay = dayStr.padStart(2, "0");
+
+  const entries = [];
+
+  for (let i = 0; i < data.Cycle; i++) {
+    // Calculate the new month and year manually
+    const totalMonths = originalMonth - 1 + i; // 0-based math
+    const newYear = originalYear + Math.floor(totalMonths / 12);
+    const newMonth = (totalMonths % 12) + 1; // back to 1-based
+
+    const formattedMonth = String(newMonth).padStart(2, "0");
+    const formattedDate = `${newYear}-${formattedMonth}-${originalDay}`;
+
+    entries.push({
+      ...data,
+      TransactionDate: formattedDate,
+      Month: newMonth,
+      Year: newYear,
+    });
+  }
+
+  return entries;
 }
