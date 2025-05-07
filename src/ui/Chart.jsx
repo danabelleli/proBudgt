@@ -32,7 +32,7 @@ function Chart({ total, chartName }) {
     <Container>
       <ResponsiveContainer height={200} width="100%">
         <AreaChart data={total}>
-          <XAxis dataKey="label" interval={1} />
+          <XAxis dataKey="label" interval={3} />
           <YAxis unit="$" />
           <CartesianGrid />
           <Tooltip />

@@ -10,9 +10,9 @@ const GridRow = styled.div`
 
   @media (max-width: 1440px) {
     grid-template-columns: ${(props) =>
-      props.$columnsMobile || props.$columns || "14rem 1fr"};
-    column-gap: 4rem;
-    row-gap: 4rem;
+      props.$columnsMobile || props.$columns || "10rem 1fr"};
+    column-gap: 2rem;
+    row-gap: 2rem;
   }
 `;
 
