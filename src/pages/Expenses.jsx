@@ -94,7 +94,7 @@ function Expenses() {
             <Title as="h3">stats</Title>
             <div className="grid grid-cols-2 gap-8">
               <Chart total={chartData} chartName="expenses" />
-              <PieChartBox />
+              <PieChartBox chartData={expenses} />
             </div>
           </GridRow>
           <GridRow>

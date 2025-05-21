@@ -7,6 +7,7 @@ import {
   Tooltip,
 } from "recharts";
 import styled from "styled-components";
+import { useCategories } from "../hooks/useCategories";
 
 const Container = styled.div`
   // padding: 3rem 3rem;
@@ -19,47 +20,78 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const testData = [
-  {
-    category: "housing",
-    value: 40,
-    color: "#50ff62",
-  },
-  {
-    category: "transportation",
-    value: 10,
-    color: "#50d0ff",
-  },
+function PieChartBox({ chartData }) {
+  const { categories = [] } = useCategories();
+  const pieChartData =
+    chartData?.reduce((acc, curr) => {
+      const { Category: category, Amount: amount } = curr;
 
-  {
-    category: "personal",
-    value: 30,
-    color: "#808080",
-  },
-  {
-    category: "medical",
-    value: 10,
-    color: "#2f00ff",
-  },
-  {
-    category: "education",
-    value: 20,
-    color: "#ffc0cb",
-  },
-];
+      const categoryInfo = categories?.find((cat) => cat.Value === category);
 
-function PieChartBox() {
+      const existing = acc.find((item) => item.category === category);
+
+      if (existing) {
+        existing.value += amount;
+      } else {
+        acc.push({
+          category,
+          value: amount,
+          color: categoryInfo?.Color || "#ccc",
+        });
+      }
+
+      return acc;
+    }, []) || [];
+
+  function createPercentageTooltip(data) {
+    return function PercentageTooltip({ active, payload }) {
+      if (active && payload && payload.length > 0) {
+        const currentItem = payload[0];
+        const total = data.reduce((sum, item) => sum + item.value, 0);
+        const percentage = total
+          ? ((currentItem.value / total) * 100).toFixed(1)
+          : "0.0";
+
+        return (
+          <div
+            style={{
+              backgroundColor: "#fff",
+              border: "1px solid #ccc",
+              padding: "0.5rem 1rem",
+              borderRadius: "0.5rem",
+              fontSize: "1.6rem",
+            }}
+          >
+            <p>
+              <strong>{currentItem.payload.category}</strong>
+            </p>
+            <p>{percentage}%</p>
+          </div>
+        );
+      }
+
+      return null;
+    };
+  }
+
+  if (chartData.length === 0)
+    return (
+      <Container>
+        <p>No data yet...</p>
+      </Container>
+    );
+
   return (
     <Container>
       <ResponsiveContainer height={250} width="100%">
         <PieChart>
           <Pie
-            data={testData}
+            data={pieChartData}
             nameKey="category"
             dataKey="value"
             innerRadius={50}
           >
-            {testData.map((entry) => (
+            {pieChartData.map((entry) => (
               <Cell
                 fill={entry.color}
                 stroke={entry.color}
@@ -67,7 +99,8 @@ function PieChartBox() {
               />
             ))}
           </Pie>
-          <Tooltip />
+          <Tooltip content={createPercentageTooltip(pieChartData)} />
+
           <Legend
             verticalAlign="middle"
             align="right"

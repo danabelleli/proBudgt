@@ -28,8 +28,10 @@ import DatePicker from "../../ui/DatePicker";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Select from "../../ui/Select";
+import { useCategories } from "../../hooks/useCategories";
 
 function ExpensesForm() {
+  const { categories = [] } = useCategories();
   const location = useLocation();
   const expense = location.state;
   const navigate = useNavigate();
@@ -133,7 +135,7 @@ function ExpensesForm() {
       Year: year,
       Amount: parseNumber(data.Amount),
       Cycle: Number(data.Cycle),
-      Category: data.Category.value,
+      Category: data.Category.Value,
     };
 
     if (isEditSession) {
@@ -246,7 +248,7 @@ function ExpensesForm() {
             rules={{ required: "This field is requiered" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                options={personalCategories}
+                options={categories}
                 inputValue={value ?? null}
                 onChange={onChange}
               />
