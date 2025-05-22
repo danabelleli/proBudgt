@@ -16,6 +16,8 @@ import IncomeForm from "./features/icome/IncomeForm";
 import Expenses from "./pages/Expenses";
 import Budget from "./pages/Budget";
 import ExpensesForm from "./features/expenses/ExpensesForm";
+import UserSettings from "./features/settings/UserSettings";
+import CategoriesSettings from "./features/settings/CategoriesSettings";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -46,8 +48,14 @@ function App() {
 
             <Route path="budget" element={<Budget />} />
             <Route path="savings" element={<Savings />} />
-            <Route path="settings" element={<Settings />} />
+
+            <Route path="settings" element={<Settings />}>
+              <Route index element={<Navigate replace to="user" />} />
+              <Route path="user" element={<UserSettings />} />
+              <Route path="categories" element={<CategoriesSettings />} />
+            </Route>
           </Route>
+
           <Route path="login" element={<Login />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>

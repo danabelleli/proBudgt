@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
-import { personalCategories } from "../../utils/data";
 import {
   formatNumber,
   generateCycledEntries,
