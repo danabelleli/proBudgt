@@ -51,9 +51,8 @@ function Settings() {
           ))}
         </Ul>
       </Row>
-      <Row>
-        <Outlet />
-      </Row>
+
+      <Outlet />
     </>
   );
 }
